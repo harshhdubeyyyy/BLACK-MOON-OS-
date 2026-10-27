@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Black Moon Wallpaper
+Comment=Set the pixel-art wallpaper on every workspace
+Exec=/usr/local/bin/blackmoon-wallpaper
+X-GNOME-Autostart-enabled=true

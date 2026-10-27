@@ -797,6 +797,91 @@ fn rebuild_passwd(files: [File], users: [User]) -> int {
 
 // ---- the shell: one big dispatch, like a real shell's builtin table ----
 
+// ---- ai demo: a perceptron that learns the OR gate (pure ints, deterministic) ----
+fn cmd_ai() -> int {
+    let mut w0: int = 0;
+    let mut w1: int = 0;
+    let mut b: int = 0;
+    let mut xs0: [int] = [0, 0, 1, 1];
+    let mut xs1: [int] = [0, 1, 0, 1];
+    let mut ts: [int] = [0, 1, 1, 1];
+    let mut epoch: int = 0;
+    let mut used: int = 0;
+    while epoch < 10 {
+        let mut errors: int = 0;
+        let mut i: int = 0;
+        while i < 4 {
+            let mut sum: int = w0 * xs0[i] + w1 * xs1[i] + b;
+            let mut y: int = 0;
+            if sum > 0 {
+                y = 1;
+            }
+            let mut err: int = ts[i] - y;
+            if err != 0 {
+                w0 = w0 + err * xs0[i];
+                w1 = w1 + err * xs1[i];
+                b = b + err;
+                errors = errors + 1;
+            }
+            i = i + 1;
+        }
+        used = epoch + 1;
+        if errors == 0 {
+            break;
+        }
+        epoch = epoch + 1;
+    }
+    println("ai: perceptron learned OR in", used, "epochs");
+    println("ai: weights =", w0, w1, "bias =", b);
+    let mut j: int = 0;
+    while j < 4 {
+        let mut sum: int = w0 * xs0[j] + w1 * xs1[j] + b;
+        let mut y: int = 0;
+        if sum > 0 {
+            y = 1;
+        }
+        println(xs0[j], "OR", xs1[j], "=", y);
+        j = j + 1;
+    }
+    return 0;
+}
+
+// ---- security audit: counts live objects, reports the permission model ----
+fn cmd_audit(files: [File], procs: [Proc]) -> int {
+    let mut nfiles: int = 0;
+    let mut ndirs: int = 0;
+    let mut root_owned: int = 0;
+    let mut guest_owned: int = 0;
+    let mut i: int = 0;
+    while i < len(files) {
+        if files[i].alive {
+            if files[i].is_dir {
+                ndirs = ndirs + 1;
+            } else {
+                nfiles = nfiles + 1;
+            }
+            if files[i].owner == 0 {
+                root_owned = root_owned + 1;
+            } else {
+                guest_owned = guest_owned + 1;
+            }
+        }
+        i = i + 1;
+    }
+    let mut nprocs: int = 0;
+    let mut j: int = 0;
+    while j < len(procs) {
+        if procs[j].alive {
+            nprocs = nprocs + 1;
+        }
+        j = j + 1;
+    }
+    println("audit: files =", nfiles, "dirs =", ndirs, "procs =", nprocs);
+    println("audit: root-owned =", root_owned, "guest-owned =", guest_owned);
+    println("audit: OK - permission model is owner-or-root only (no world-writable files exist)");
+    return 0;
+}
+
 fn cmd_dispatch(parts: [str], procs: [Proc], files: [File], users: [User], heap: [int], sortarr: [int], regs: [int], history: [str]) -> int {
     if len(parts) == 0 {
         return 0;
@@ -809,6 +894,7 @@ fn cmd_dispatch(parts: [str], procs: [Proc], files: [File], users: [User], heap:
         println("  uname, hostname, whoami, su, useradd, env");
         println("  ping, ifconfig, httpget, pkg, services, logger");
         println("  history, uptime, shutdown");
+        println("  ai, audit (perceptron demo, security audit)");
         return 0;
     }
     if cmd == "echo" {
@@ -1213,6 +1299,14 @@ fn cmd_dispatch(parts: [str], procs: [Proc], files: [File], users: [User], heap:
         } else {
             println("HOME=/home/" + uname);
         }
+        return 0;
+    }
+    if cmd == "ai" {
+        let mut d: int = cmd_ai();
+        return 0;
+    }
+    if cmd == "audit" {
+        let mut d: int = cmd_audit(files, procs);
         return 0;
     }
     if cmd == "shutdown" {

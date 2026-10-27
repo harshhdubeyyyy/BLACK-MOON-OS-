@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Plank Dock
+Comment=macOS-style dock at the bottom of the screen
+Exec=plank
+X-GNOME-Autostart-enabled=true

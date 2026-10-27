@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Black Moon AI
+Comment=Chat with local AI models (Ollama, no cloud needed)
+Exec=/usr/local/bin/blackmoon-ai
+Terminal=true
+Categories=System;Utility;

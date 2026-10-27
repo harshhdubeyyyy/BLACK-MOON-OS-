@@ -45,7 +45,7 @@ so it must match exactly.
 | Networking | `ping` (loopback, simulated), `ifconfig`, `httpget` (real HTTP through the host stack) |
 | Package manager | `pkg list/search/info/install/remove` — install really fetches the package source over HTTPS from the Jal Pari registry |
 | Services + logging | cron (heartbeat every 5 ticks), syslog (`/var/log/syslog`), `logger`, `services` |
-| Shell | ~30 commands, script files, single-command mode, `history`, `env`, `uptime`, `df`, `shutdown` |
+| Shell | ~30 commands, script files, single-command mode, `history`, `env`, `uptime`, `df`, `shutdown`, `ai`, `audit` |
 
 ## Honest limits
 

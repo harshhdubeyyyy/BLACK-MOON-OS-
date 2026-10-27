@@ -113,3 +113,28 @@ open-vm-tools
 qemu-guest-agent
 virtualbox-guest-utils
 spice-vdagent
+
+# Retro pixel + macOS glass desktop (picom = blur/translucency/rounded
+# corners, plank = macOS-style dock, terminus-font = pixel bitmap font)
+picom
+plank
+terminus-font
+
+# Local AI (no cloud account needed; models download on first use)
+ollama
+whisper-cpp
+jupyter-notebook
+
+# Cybersecurity toolkit (official Arch repos only; see README for the
+# BlackArch/AUR extras like metasploit, burpsuite, ffuf, bettercap)
+nmap
+wireshark-qt
+wireshark-cli
+hashcat
+john
+hydra
+aircrack-ng
+sqlmap
+gobuster
+tcpdump
+openbsd-netcat

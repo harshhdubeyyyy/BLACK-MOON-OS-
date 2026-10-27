@@ -1,0 +1,30 @@
+#!/bin/bash
+# Black Moon OS AI launcher — everything here runs LOCALLY, no cloud account.
+#   ollama       chat with local LLMs (models download on first use)
+#   whisper-cpp  speech-to-text, also local (needs a ggml model file)
+#   jupyter      notebooks for experimenting (python + notebook server)
+#   JalOS 'ai'   a tiny perceptron that learns the OR gate, in Jal Pari:
+#                run blackmoon-jalos, then type: ai
+set -u
+if ! command -v ollama >/dev/null 2>&1; then
+    echo "blackmoon-ai: ollama is not installed on this system."
+    exit 1
+fi
+echo "== Black Moon AI (local models) =="
+ollama list 2>/dev/null || true
+# ollama list prints a header line even with zero models; rows start at line 2.
+MODELS=$(ollama list 2>/dev/null | tail -n +2 | grep -v '^$' | wc -l)
+if [ "$MODELS" -gt 0 ]; then
+    FIRST=$(ollama list 2>/dev/null | tail -n +2 | head -n 1 | awk '{print $1}')
+    read -rp "Model to chat with (Enter = $FIRST): " CHOICE
+    ollama run "${CHOICE:-$FIRST}"
+else
+    echo "No local models yet. A small first model (qwen2:0.5b, ~350 MB download)."
+    read -rp "Download it now? [y/N] " yn
+    case "$yn" in
+        [yY]*) ollama pull qwen2:0.5b && ollama run qwen2:0.5b ;;
+        *) echo "Skipped. Later: ollama pull qwen2:0.5b && ollama run qwen2:0.5b" ;;
+    esac
+fi
+echo "Speech-to-text: whisper-cpp -m <ggml-model.bin> -f file.wav"
+echo "Notebooks: jupyter notebook"

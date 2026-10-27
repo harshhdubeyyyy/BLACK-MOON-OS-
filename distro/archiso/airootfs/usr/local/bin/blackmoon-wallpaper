@@ -1,0 +1,17 @@
+#!/bin/bash
+# Black Moon OS: set the pixel-art wallpaper on every workspace/monitor.
+# Runs at login via autostart. It queries xfconf for the real property
+# paths instead of hardcoding monitor names (monitor0, monitorHDMI-1, ...),
+# so it works whatever display is attached. If the desktop channel is not
+# up yet, it quietly does nothing; the wallpaper file stays at
+# /usr/share/backgrounds/blackmoon-pixel.png for a manual pick
+# (right-click desktop -> Desktop Settings).
+WALLPAPER=/usr/share/backgrounds/blackmoon-pixel.png
+command -v xfconf-query >/dev/null 2>&1 || exit 0
+[ -f "$WALLPAPER" ] || exit 0
+for prop in $(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep 'image-path$'); do
+    xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER" 2>/dev/null || true
+done
+for prop in $(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep 'image-style$'); do
+    xfconf-query -c xfce4-desktop -p "$prop" -s 5 2>/dev/null || true
+done

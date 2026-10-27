@@ -1,0 +1,7 @@
+[Configuration]
+# Retro pixel terminal: Terminus is a bitmap font, crisp at small sizes.
+# (If it does not resolve on some setup, xfce4-terminal falls back to its
+# default font; pick Terminus in Edit -> Preferences -> Appearance.)
+FontName=xos4 Terminus 14
+ColorForeground=#ccffcc
+ColorBackground=#0a0a18

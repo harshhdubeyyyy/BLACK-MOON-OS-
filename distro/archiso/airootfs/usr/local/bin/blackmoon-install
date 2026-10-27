@@ -83,8 +83,22 @@ echo "Installing Jal Pari + JalOS into the new system..."
 mkdir -p /mnt/usr/share/blackmoon /mnt/usr/local/bin
 cp /usr/share/blackmoon/jalos.fg /mnt/usr/share/blackmoon/ 2>/dev/null || true
 cp /usr/share/blackmoon/welcome.txt /mnt/usr/share/blackmoon/ 2>/dev/null || true
-cp /usr/local/bin/blackmoon-welcome /usr/local/bin/blackmoon-jalos /usr/local/bin/blackmoon-install-jalpari /mnt/usr/local/bin/ 2>/dev/null || true
+cp /usr/local/bin/blackmoon-welcome /usr/local/bin/blackmoon-jalos /usr/local/bin/blackmoon-install-jalpari /usr/local/bin/blackmoon-ai /usr/local/bin/blackmoon-sec /usr/local/bin/blackmoon-wallpaper /mnt/usr/local/bin/ 2>/dev/null || true
 cp /usr/share/applications/blackmoon-*.desktop /mnt/usr/share/applications/ 2>/dev/null || true
+# Glass theme + pixel art for the installed system: system-wide files go
+# to their real paths; per-user files go to /etc/skel (future users) AND
+# directly into the new user's home (it was created before this step, so
+# skel alone would miss it).
+mkdir -p /mnt/etc/xdg /mnt/usr/share/backgrounds /mnt/etc/skel/.config/autostart /mnt/etc/skel/.config/xfce4/terminal /mnt/etc/skel/.config/gtk-3.0 "/mnt/home/$USERNAME/.config/autostart" "/mnt/home/$USERNAME/.config/xfce4/terminal" "/mnt/home/$USERNAME/.config/gtk-3.0"
+cp /etc/xdg/picom.conf /mnt/etc/xdg/ 2>/dev/null || true
+cp /usr/share/backgrounds/blackmoon-pixel.png /mnt/usr/share/backgrounds/ 2>/dev/null || true
+cp /root/.config/autostart/*.desktop /mnt/etc/skel/.config/autostart/ 2>/dev/null || true
+cp /root/.config/autostart/*.desktop "/mnt/home/$USERNAME/.config/autostart/" 2>/dev/null || true
+cp /root/.config/xfce4/terminal/terminalrc /mnt/etc/skel/.config/xfce4/terminal/ 2>/dev/null || true
+cp /root/.config/xfce4/terminal/terminalrc "/mnt/home/$USERNAME/.config/xfce4/terminal/" 2>/dev/null || true
+cp /root/.config/gtk-3.0/settings.ini /mnt/etc/skel/.config/gtk-3.0/ 2>/dev/null || true
+cp /root/.config/gtk-3.0/settings.ini "/mnt/home/$USERNAME/.config/gtk-3.0/" 2>/dev/null || true
+arch-chroot /mnt chown -R "$USERNAME:$USERNAME" "/home/$USERNAME/.config"
 arch-chroot /mnt git clone https://github.com/jayantt1dubeyy/RED-MOON- /opt/jalpari
 arch-chroot /mnt /opt/jalpari/scripts/install.sh || echo "jalpari install reported an error — rerun blackmoon-install-jalpari after reboot."
 mkdir -p "/mnt/home/$USERNAME/.local/bin"

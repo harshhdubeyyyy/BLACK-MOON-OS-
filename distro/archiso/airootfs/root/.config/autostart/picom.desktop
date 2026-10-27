@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Black Moon Glass
+Comment=Glass compositor (blur, translucency, rounded corners)
+Exec=picom --config /etc/xdg/picom.conf
+X-GNOME-Autostart-enabled=true

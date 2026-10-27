@@ -1,0 +1,28 @@
+#!/bin/bash
+# Black Moon OS security audit — LOCALHOST ONLY, by design.
+# It scans this machine and lists the installed toolkit. Anything beyond
+# localhost is deliberately NOT scripted here: use the tools directly,
+# and only against systems you have written permission to test.
+echo "== Black Moon security audit (this machine only) =="
+echo
+echo "-- listening ports --"
+ss -tlnp 2>/dev/null || echo "(ss unavailable)"
+echo
+echo "-- fast localhost scan --"
+if command -v nmap >/dev/null 2>&1; then
+    nmap -F 127.0.0.1
+else
+    echo "(nmap not installed)"
+fi
+echo
+echo "-- toolkit on this system --"
+for t in nmap wireshark tshark tcpdump hashcat john hydra aircrack-ng sqlmap gobuster nc; do
+    if command -v "$t" >/dev/null 2>&1; then
+        echo "  $t: yes"
+    else
+        echo "  $t: no"
+    fi
+done
+echo
+echo "Beyond localhost: nmap, wireshark, sqlmap, gobuster and friends are"
+echo "installed — use them only with written permission for that target."

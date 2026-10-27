@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Black Moon Security
+Comment=Localhost security audit + installed toolkit list
+Exec=/usr/local/bin/blackmoon-sec
+Terminal=true
+Categories=System;Utility;
