@@ -7,7 +7,7 @@ if command -v jalpari >/dev/null 2>&1; then
 fi
 command -v git >/dev/null 2>&1 || { echo "git is missing — install it first: pacman -S git" >&2; exit 1; }
 rm -rf /opt/jalpari
-git clone https://github.com/jayantt1dubeyy/RED-MOON- /opt/jalpari
+git clone https://github.com/harshhdubeyyyy/RED-MOON- /opt/jalpari
 /opt/jalpari/scripts/install.sh
 ln -sf /opt/jalpari/bin/jalpari /usr/local/bin/jalpari
 echo "installed: jalpari (try: jalpari run /usr/share/blackmoon/jalos.fg)"

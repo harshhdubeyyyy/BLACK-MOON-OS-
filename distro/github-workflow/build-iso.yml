@@ -1,0 +1,39 @@
+# GitHub Actions workflow: build the Black Moon OS ISO.
+#
+# LANDING NOTE (update 27 Oct 2026): this file is LIVE at
+# .github/workflows/build-iso.yml (landed via the Contents API,
+# commit 32146348) — the copy here is kept as a reference. The
+# repo's tree-build push tooling still skips .github/, so future
+# workflow edits should go through the Contents API or the web UI.
+# To run it: Actions tab -> Build Black Moon ISO -> Run workflow
+# (it also runs on any push touching distro/**).
+#
+# What it does: builds the ISO with mkarchiso inside a privileged
+# Arch container on the runner, then uploads the ISO as an artifact
+# named blackmoon-iso. It does NOT publish a release.
+
+name: Build Black Moon ISO
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["distro/**"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install archiso
+        run: pacman -Syu --noconfirm archiso git sudo
+      - name: Build ISO
+        run: ./distro/build.sh
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: blackmoon-iso
+          path: distro/out/*.iso

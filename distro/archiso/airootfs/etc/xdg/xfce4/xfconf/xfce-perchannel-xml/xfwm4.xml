@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Black Moon OS default: macOS-style window buttons on the left
+     (close, minimize, maximize), applied to fresh sessions. -->
+<channel name="xfwm4" version="1.0">
+  <property name="general" type="empty">
+    <property name="button_layout" type="string" value="CHM|"/>
+  </property>
+</channel>

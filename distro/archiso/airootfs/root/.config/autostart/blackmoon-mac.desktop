@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Black Moon macOS look
+Comment=Apply the macOS-style look (top bar, left window buttons)
+Exec=/usr/local/bin/blackmoon-mac
+Terminal=false
+Categories=System;

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Moon Notes
+Comment=Notes app written in Jal Pari (add, list, show, search, remove)
+Exec=xfce4-terminal -H -e "/usr/local/bin/blackmoon-notes"
+Terminal=false
+Categories=Utility;

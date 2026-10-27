@@ -1,0 +1,28 @@
+#!/bin/bash
+# blackmoon-mac — apply the macOS-style look to the XFCE session.
+# Idempotent and defensive: every step is best-effort and never
+# breaks login. Runs at login via autostart (blackmoon-mac.desktop);
+# also safe to run by hand after changing anything.
+# What it does (settings confirmed against XFCE/plank docs):
+#  - window buttons on the LEFT, close/minimize/maximize order
+#    (xfwm4 button_layout 'CHM|')
+#  - the main panel to the TOP edge, full width
+#    (xfce4-panel panel-1 position 'p=6;x=0;y=0')
+#  - a second bottom panel, if the default session created one,
+#    auto-hidden so the plank dock owns the bottom edge
+# Plank itself reads its shipped settings + dockitems at login, so
+# this script does not touch plank config.
+command -v xfconf-query >/dev/null 2>&1 || exit 0
+# Window buttons left (macOS order: close, minimize, maximize).
+xfconf-query -c xfwm4 -p /general/button_layout -s 'CHM|' 2>/dev/null || true
+# Main panel: top edge, full width, 28px, locked.
+xfconf-query -c xfce4-panel -p /panels/panel-1/position -s 'p=6;x=0;y=0' 2>/dev/null || true
+xfconf-query -c xfce4-panel -p /panels/panel-1/length -s 100 2>/dev/null || true
+xfconf-query -c xfce4-panel -p /panels/panel-1/size -s 28 2>/dev/null || true
+xfconf-query -c xfce4-panel -p /panels/panel-1/position-locked -s true 2>/dev/null || true
+# Bottom taskbar panel, if the default session created one: hide it
+# so it does not fight the dock. Only touched when it exists.
+if xfconf-query -c xfce4-panel -p /panels/panel-2/position >/dev/null 2>&1; then
+    xfconf-query -c xfce4-panel -p /panels/panel-2/autohide-behavior -s 2 2>/dev/null || true
+fi
+echo "Black Moon macOS look applied (top bar, left window buttons)."

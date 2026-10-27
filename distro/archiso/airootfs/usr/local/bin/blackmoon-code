@@ -1,0 +1,17 @@
+#!/bin/bash
+# Launch Moon Code, the Jal Pari line editor. Installs the language
+# first if it is not on PATH yet.
+if ! command -v jalpari >/dev/null 2>&1; then
+    echo "Jal Pari is not installed yet — installing it now..."
+    /usr/local/bin/blackmoon-install-jalpari || exit 1
+fi
+APP=""
+if [ -f /opt/jalpari/examples/apps/moon-code.fg ]; then
+    APP=/opt/jalpari/examples/apps/moon-code.fg
+elif [ -f /usr/share/blackmoon/apps/moon-code.fg ]; then
+    APP=/usr/share/blackmoon/apps/moon-code.fg
+else
+    echo "moon-code.fg not found — run blackmoon-install-jalpari first." >&2
+    exit 1
+fi
+exec jalpari run "$APP" "$@"

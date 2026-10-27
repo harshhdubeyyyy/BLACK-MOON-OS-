@@ -83,7 +83,7 @@ echo "Installing Jal Pari + JalOS into the new system..."
 mkdir -p /mnt/usr/share/blackmoon /mnt/usr/local/bin
 cp /usr/share/blackmoon/jalos.fg /mnt/usr/share/blackmoon/ 2>/dev/null || true
 cp /usr/share/blackmoon/welcome.txt /mnt/usr/share/blackmoon/ 2>/dev/null || true
-cp /usr/local/bin/blackmoon-welcome /usr/local/bin/blackmoon-jalos /usr/local/bin/blackmoon-install-jalpari /usr/local/bin/blackmoon-ai /usr/local/bin/blackmoon-sec /usr/local/bin/blackmoon-blackarch /usr/local/bin/blackmoon-wallpaper /mnt/usr/local/bin/ 2>/dev/null || true
+cp /usr/local/bin/blackmoon-welcome /usr/local/bin/blackmoon-jalos /usr/local/bin/blackmoon-install-jalpari /usr/local/bin/blackmoon-ai /usr/local/bin/blackmoon-sec /usr/local/bin/blackmoon-blackarch /usr/local/bin/blackmoon-wallpaper /usr/local/bin/blackmoon-mac /usr/local/bin/blackmoon-notes /usr/local/bin/blackmoon-gallery /usr/local/bin/blackmoon-browser /usr/local/bin/blackmoon-code /mnt/usr/local/bin/ 2>/dev/null || true
 cp /usr/share/applications/blackmoon-*.desktop /mnt/usr/share/applications/ 2>/dev/null || true
 # Glass theme + pixel art for the installed system: system-wide files go
 # to their real paths; per-user files go to /etc/skel (future users) AND
@@ -99,8 +99,17 @@ cp /root/.config/xfce4/terminal/terminalrc "/mnt/home/$USERNAME/.config/xfce4/te
 cp /root/.config/gtk-3.0/settings.ini /mnt/etc/skel/.config/gtk-3.0/ 2>/dev/null || true
 cp /root/.config/gtk-3.0/settings.ini "/mnt/home/$USERNAME/.config/gtk-3.0/" 2>/dev/null || true
 arch-chroot /mnt chown -R "$USERNAME:$USERNAME" "/home/$USERNAME/.config"
-arch-chroot /mnt git clone https://github.com/jayantt1dubeyy/RED-MOON- /opt/jalpari
+arch-chroot /mnt git clone https://github.com/harshhdubeyyyy/RED-MOON- /opt/jalpari
 arch-chroot /mnt /opt/jalpari/scripts/install.sh || echo "jalpari install reported an error — rerun blackmoon-install-jalpari after reboot."
+# Moon apps fallback copy (launchers prefer /opt/jalpari, this is the backup).
+mkdir -p /mnt/usr/share/blackmoon/apps
+cp /mnt/opt/jalpari/examples/apps/moon-notes.fg /mnt/opt/jalpari/examples/apps/moon-gallery.fg /mnt/opt/jalpari/examples/apps/moon-browser.fg /mnt/opt/jalpari/examples/apps/moon-code.fg /mnt/usr/share/blackmoon/apps/ 2>/dev/null || true
+# Plank dock settings + items for the installed user (live root's
+# config does not carry over otherwise; skel covers future users).
+mkdir -p /mnt/etc/skel/.config/plank "/mnt/home/$USERNAME/.config/plank"
+cp -r /root/.config/plank /mnt/etc/skel/.config/ 2>/dev/null || true
+cp -r /root/.config/plank "/mnt/home/$USERNAME/.config/" 2>/dev/null || true
+arch-chroot /mnt chown -R "$USERNAME:$USERNAME" "/home/$USERNAME/.config/plank" 2>/dev/null || true
 mkdir -p "/mnt/home/$USERNAME/.local/bin"
 ln -sf /opt/jalpari/bin/jalpari "/mnt/home/$USERNAME/.local/bin/jalpari"
 arch-chroot /mnt chown -R "$USERNAME:$USERNAME" "/home/$USERNAME/.local"

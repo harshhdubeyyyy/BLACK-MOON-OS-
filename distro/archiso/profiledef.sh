@@ -24,5 +24,10 @@ file_permissions=(
   ["/usr/local/bin/blackmoon-ai"]="0:0:755"
   ["/usr/local/bin/blackmoon-sec"]="0:0:755"
   ["/usr/local/bin/blackmoon-blackarch"]="0:0:755"
+  ["/usr/local/bin/blackmoon-mac"]="0:0:755"
+  ["/usr/local/bin/blackmoon-notes"]="0:0:755"
+  ["/usr/local/bin/blackmoon-gallery"]="0:0:755"
+  ["/usr/local/bin/blackmoon-browser"]="0:0:755"
+  ["/usr/local/bin/blackmoon-code"]="0:0:755"
   ["/usr/local/bin/blackmoon-wallpaper"]="0:0:755"
 )

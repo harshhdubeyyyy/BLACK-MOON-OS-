@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Moon Browser
+Comment=Text browser written in Jal Pari (fetches a page and prints its readable text)
+Exec=xfce4-terminal -H -e "/usr/local/bin/blackmoon-browser"
+Terminal=false
+Categories=Utility;

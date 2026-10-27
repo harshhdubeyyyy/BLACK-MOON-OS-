@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Moon Code
+Comment=Line editor written in Jal Pari (open, list, print, append, insert, delete, save)
+Exec=xfce4-terminal -H -e "/usr/local/bin/blackmoon-code"
+Terminal=false
+Categories=Utility;

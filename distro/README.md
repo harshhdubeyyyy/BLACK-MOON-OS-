@@ -28,10 +28,14 @@ built in. This directory holds everything needed to build its ISO.
   terminal and UI. The wallpaper is set at login by
   `blackmoon-wallpaper`, which asks xfconf for the real monitor names
   instead of hardcoding them. If picom ever fails to start, the desktop
-  just falls back to plain opaque windows — nothing breaks.
+  just falls back to plain opaque windows — nothing breaks. The
+  macOS look goes further (see "macOS look" below): top menu bar,
+  bottom dock with magnification, window buttons on the left, and
+  the pixel wallpaper behind the login greeter.
 - **Apps:** Firefox + Chromium (browse), GNOME Software + Flatpak
   (browse and install apps graphically), LibreOffice, VLC, mpv,
-  GIMP, Inkscape, Evince, Mousepad, and the usual tools
+  GIMP, Inkscape, Evince, Mousepad, and the usual tools — plus the
+  built-in Moon apps, all written in Jal Pari (see "macOS look").
 - **AI (all local, no cloud account):** `ollama` for chatting with
   local LLMs (run `blackmoon-ai`; models download on first use, a
   small `qwen2:0.5b` is the suggested first one), `whisper-cpp` for
@@ -56,6 +60,53 @@ built in. This directory holds everything needed to build its ISO.
   the target disk, creates a real user with sudo; it also copies the
   glass theme, wallpaper, and AI/security launchers into the installed
   system (theme configs land in the new user's home, not just skel)
+
+## macOS look (what is cloned, what is not)
+
+The ISO boots into a desktop shaped like macOS, not just themed
+like it:
+
+- **Top menu bar:** `blackmoon-mac` (autostarted at login, and safe
+  to run by hand) moves the main XFCE panel to the top edge,
+  full-width, 28px, locked — applications menu, clock, and systray
+  on top, as on a Mac.
+- **Bottom dock:** plank, centered, 48px icons, magnification on
+  hover, never hidden. The dock holds Finder, Moon Notes, Moon
+  Gallery, Moon Browser, Moon Code, Terminal, Firefox, and JalOS.
+- **Traffic lights:** window buttons on the LEFT in
+  close/minimize/maximize order (`xfwm4` button layout `CHM|`,
+  also shipped as the xfwm4 default). A bottom taskbar panel, if
+  the default session created one, is auto-hidden so it never
+  fights the dock.
+- **Glass + wallpaper:** the existing picom glass and pixel night
+  scene, plus the same wallpaper behind the login greeter.
+- **Finder:** a Finder entry in the dock and menu that opens Thunar.
+
+Built-in Moon apps (all in Jal Pari, in RED-MOON-
+`examples/apps/`):
+
+- **Moon Notes** — terminal notes: `add`, `list`, `show`,
+  `search`, `remove`; one `notes.txt` in the current directory.
+  From a terminal: `blackmoon-notes add Shopping "buy milk"`.
+- **Moon Gallery** — takes image file paths and writes
+  `gallery.html` in the current directory. Jal Pari cannot scan a
+  directory (no readdir builtin), so paths are arguments; the dock
+  icon opens with the pixel wallpaper as a demo.
+- **Moon Browser** — a TEXT browser: fetches a URL and prints its
+  readable text. Jal Pari has no rendering engine, so this is not
+  a Chrome replacement.
+- **Moon Code** — a line editor (`open`, `list`, `print`,
+  `append`, `insert`, `delete`, `save`, `quit`), built on the new
+  `read_line` builtin.
+
+Honest limits of the clone: there is no global application menu,
+no Launchpad, no Aqua window theme (no macOS theme package is in
+Arch's official repos, and unverified names are never added to the
+ISO list), and no macOS fonts. The Moon apps are terminal apps
+with dock icons, not GUI apps — Jal Pari has no GUI toolkit, so a
+real Aqua-style GUI app in Jal Pari is not possible yet. All of
+the look pieces above are untested until the first boot, like
+everything else profile-side.
 
 ## Toward BlackArch level (staged roadmap — honest scale)
 
@@ -103,8 +154,11 @@ sudo pacman -S archiso
 
 The ISO cannot be built on Debian/Ubuntu or in this sandbox: mkarchiso
 needs pacman and Arch's repos. A GitHub Actions workflow that builds
-the ISO on a runner is a planned next step (it needs a token with
-workflow scope to land here).
+the ISO on a runner is LIVE at `.github/workflows/build-iso.yml`
+(landed 27 Oct 2026 via the Contents API): run it from the Actions
+tab (it also runs on any push touching `distro/**`), and download
+the ISO as the `blackmoon-iso` artifact. A reference copy is kept
+at `distro/github-workflow/build-iso.yml`.
 
 ## Test it (QEMU)
 
@@ -140,6 +194,12 @@ prompts, reboot. After first boot: `sudo pacman -Syu`, and
   to their default fonts; if the wallpaper script finds no xfconf
   properties, pick `/usr/share/backgrounds/blackmoon-pixel.png`
   manually (right-click desktop -> Desktop Settings).
+- **macOS-look pieces are untested too:** `blackmoon-mac` (top bar,
+  left buttons, bottom-panel hiding), the plank settings and
+  dockitems, the greeter wallpaper, and the Moon-app dock icons all
+  need the first boot to prove themselves; if the top bar does not
+  move, run `blackmoon-mac` by hand and check `xfconf-query -c
+  xfce4-panel -p /panels/panel-1/position`.
 - **Live session runs as root** (standard for live images, and the
   installed system does not). If the graphical login ever fails to
   appear, the console is still root-autologin: run `startxfce4`.

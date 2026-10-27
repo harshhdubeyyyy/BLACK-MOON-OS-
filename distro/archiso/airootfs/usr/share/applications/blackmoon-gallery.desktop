@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Moon Gallery
+Comment=Gallery app written in Jal Pari (opens with a demo image; run blackmoon-gallery with your own image paths for a real gallery)
+Exec=xfce4-terminal -H -e "/usr/local/bin/blackmoon-gallery /usr/share/backgrounds/blackmoon-pixel.png"
+Terminal=false
+Categories=Utility;
