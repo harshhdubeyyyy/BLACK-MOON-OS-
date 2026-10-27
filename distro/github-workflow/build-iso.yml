@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install archiso
-        run: pacman -Syu --noconfirm archiso git sudo
+        run: pacman -Syu --noconfirm archiso git sudo grub
       - name: Build ISO
         run: ./distro/build.sh
       - name: Upload ISO

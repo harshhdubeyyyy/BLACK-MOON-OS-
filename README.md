@@ -4,7 +4,7 @@ JalOS is every subsystem a modern OS has — bootloader, kernel,
 priority scheduler, virtual memory allocator, hierarchical
 filesystem with permissions, users, devices, networking, a package
 manager, system services, logging, and a ~30-command shell —
-implemented in [The Jal Pari Language](https://github.com/jayantt1dubeyy/RED-MOON-)
+implemented in [The Jal Pari Language](https://github.com/themythofsisyphusjayant/RED-MOON-)
 and running as a single program (`jalos.fg`).
 
 ## Black Moon OS — the distro
@@ -49,17 +49,26 @@ so it must match exactly.
 
 ## Honest limits
 
-- **Not bootable.** Jal Pari has no pointers, inline assembly,
-  interrupts, or freestanding mode, so this runs on top of a host
-  OS. A bootable Jal Pari kernel would need a freestanding backend
-  first — the big32 RISC-V CPU is the plausible target for that
-  someday, not today.
+- **Not bootable — yet.** JalOS itself still runs on top of a
+  host OS: it is a simulation, not a kernel. But the language
+  underneath it has changed since this was written: Jal Pari now
+  has a freestanding mode (`--freestanding`: no libc, own
+  `_start`), raw memory (`peek32`/`poke32`), bitwise operators,
+  CSR builtins, an `ecall` builtin, and a `trap_handler` hook —
+  the pieces a bootable kernel needs. The from-scratch kernel
+  track (Phases A–D done, first kernel next) lives in the
+  language repo's `docs/FREESTANDING.md`; JalOS's ideas feed
+  that kernel, but JalOS the program does not become it. What
+  Jal Pari still lacks for kernel work: pointers and inline
+  assembly.
 - **No GUI.** No graphics builtins exist, so the desktop is the
   text shell.
 - **No passwords worth trusting.** Passwords are compared as plain
   strings (no hashing builtin exists) — the user model demonstrates
   permissions, it does not secure anything real.
-- **HTTPS needs direct internet.** `pkg install` and `httpget` over
-  HTTPS fail behind HTTP proxies: the language's HTTP client does
-  not speak proxy CONNECT yet. Plain HTTP works everywhere.
+- **HTTPS works through proxies now.** `pkg install` and `httpget`
+  over HTTPS honour `https_proxy` / `HTTPS_PROXY` (plain HTTP
+  proxy, `CONNECT` handshake before TLS; `no_proxy` bypasses it),
+  shipped in language v1.2.0. Plain HTTP works everywhere
+  regardless.
 - **No persistence.** The VFS lives in memory; shutdown loses it.
