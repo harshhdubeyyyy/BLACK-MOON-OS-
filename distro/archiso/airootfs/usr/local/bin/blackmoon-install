@@ -83,7 +83,7 @@ echo "Installing Jal Pari + JalOS into the new system..."
 mkdir -p /mnt/usr/share/blackmoon /mnt/usr/local/bin
 cp /usr/share/blackmoon/jalos.fg /mnt/usr/share/blackmoon/ 2>/dev/null || true
 cp /usr/share/blackmoon/welcome.txt /mnt/usr/share/blackmoon/ 2>/dev/null || true
-cp /usr/local/bin/blackmoon-welcome /usr/local/bin/blackmoon-jalos /usr/local/bin/blackmoon-install-jalpari /usr/local/bin/blackmoon-ai /usr/local/bin/blackmoon-sec /usr/local/bin/blackmoon-wallpaper /mnt/usr/local/bin/ 2>/dev/null || true
+cp /usr/local/bin/blackmoon-welcome /usr/local/bin/blackmoon-jalos /usr/local/bin/blackmoon-install-jalpari /usr/local/bin/blackmoon-ai /usr/local/bin/blackmoon-sec /usr/local/bin/blackmoon-blackarch /usr/local/bin/blackmoon-wallpaper /mnt/usr/local/bin/ 2>/dev/null || true
 cp /usr/share/applications/blackmoon-*.desktop /mnt/usr/share/applications/ 2>/dev/null || true
 # Glass theme + pixel art for the installed system: system-wide files go
 # to their real paths; per-user files go to /etc/skel (future users) AND

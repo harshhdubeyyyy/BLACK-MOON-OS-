@@ -1,0 +1,39 @@
+#!/bin/bash
+# blackmoon-blackarch — prints the steps to add the real BlackArch
+# repo to an INSTALLED Black Moon OS system. THIS SCRIPT RUNS
+# NOTHING ITSELF: adding a third-party repo changes pacman.conf and
+# the keyring, so you read the steps, then run them yourself.
+cat <<'EOF'
+== Black Moon OS -> BlackArch ==
+
+BlackArch is not a separate distro: it is a large extra repo
+(2000+ security tools in ~50 groups) that sits on top of Arch.
+Black Moon OS already ships the official-repo toolkit (see
+blackmoon-sec); this adds the rest.
+
+Steps (run in a terminal, as root or with sudo):
+
+  1. Get the official installer script:
+       curl -O https://blackarch.org/strap.sh
+  2. Check it is the one BlackArch publishes (compare the sha256
+     sum shown at https://blackarch.org/downloads.html):
+       sha256sum strap.sh
+  3. Run it (it adds the repo to pacman.conf and the keyring):
+       chmod +x strap.sh
+       sudo ./strap.sh
+  4. Sync and update:
+       sudo pacman -Syu
+  5. Install one group at a time, e.g.:
+       sudo pacman -S blackarch-webapp
+       sudo pacman -S blackarch-scanner
+       sudo pacman -S blackarch-forensic
+     (Full group list: pacman -Sg | grep blackarch)
+
+Honest warnings:
+  - Do NOT install the whole "blackarch" group blindly: it is
+    2000+ tools and tens of GB. Pick the groups you actually use.
+  - This only makes sense on an INSTALLED system, not the live
+    ISO session (live changes vanish on reboot).
+  - BlackArch tools are for systems you have written permission
+    to test. Nothing here changes that rule.
+EOF

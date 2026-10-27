@@ -1,8 +1,11 @@
 #!/bin/bash
 # Black Moon OS security audit — LOCALHOST ONLY, by design.
-# It scans this machine and lists the installed toolkit. Anything beyond
-# localhost is deliberately NOT scripted here: use the tools directly,
-# and only against systems you have written permission to test.
+# It scans this machine and lists the installed toolkit by BlackArch
+# category. Anything beyond localhost is deliberately NOT scripted
+# here: use the tools directly, and only against systems you have
+# written permission to test. For the full BlackArch repo (2000+
+# tools), run blackmoon-blackarch — it prints the steps, it runs
+# nothing itself.
 echo "== Black Moon security audit (this machine only) =="
 echo
 echo "-- listening ports --"
@@ -15,14 +18,35 @@ else
     echo "(nmap not installed)"
 fi
 echo
-echo "-- toolkit on this system --"
-for t in nmap wireshark tshark tcpdump hashcat john hydra aircrack-ng sqlmap gobuster nc; do
-    if command -v "$t" >/dev/null 2>&1; then
-        echo "  $t: yes"
-    else
-        echo "  $t: no"
-    fi
-done
+echo "-- toolkit on this system (by BlackArch category) --"
+have() {
+    if command -v "$1" >/dev/null 2>&1; then echo "  $1: yes"; else echo "  $1: no"; fi
+}
+echo "recon + scanner:"
+have nmap
+have hping
+echo "webapp + proxy:"
+have mitmproxy
+have sqlmap
+have gobuster
+echo "forensic:"
+have sleuthkit
+have binwalk
+echo "reversing:"
+have radare2
+echo "cracker:"
+have hashcat
+have john
+have hydra
+have ncrack
+echo "wireless:"
+have aircrack-ng
+echo "sniffer:"
+have wireshark
+have tshark
+have tcpdump
+echo "networking:"
+have nc
 echo
-echo "Beyond localhost: nmap, wireshark, sqlmap, gobuster and friends are"
-echo "installed — use them only with written permission for that target."
+echo "Beyond localhost: use these tools only with written permission"
+echo "for that target. Full BlackArch arsenal: run blackmoon-blackarch."

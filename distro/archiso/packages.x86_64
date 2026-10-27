@@ -125,16 +125,32 @@ ollama
 whisper-cpp
 jupyter-notebook
 
-# Cybersecurity toolkit (official Arch repos only; see README for the
-# BlackArch/AUR extras like metasploit, burpsuite, ffuf, bettercap)
+# Cybersecurity toolkit (official Arch repos only, grouped by the
+# BlackArch category each tool belongs to; see distro README for the
+# staged BlackArch roadmap and the extras still NOT in official repos,
+# e.g. metasploit, burpsuite, ffuf, bettercap, whatweb, subfinder)
+# recon + scanner (blackarch-scanner, blackarch-recon)
 nmap
-wireshark-qt
-wireshark-cli
+hping
+# webapp + proxy (blackarch-webapp, blackarch-proxy)
+mitmproxy
+sqlmap
+gobuster
+# forensic (blackarch-forensic)
+sleuthkit
+binwalk
+# reversing + disassembler (blackarch-reversing, blackarch-disassembler)
+radare2
+# cracker (blackarch-cracker)
 hashcat
 john
 hydra
+ncrack
+# wireless (blackarch-wireless)
 aircrack-ng
-sqlmap
-gobuster
+# sniffer (blackarch-sniffer)
+wireshark-qt
+wireshark-cli
 tcpdump
+# networking (blackarch-networking)
 openbsd-netcat

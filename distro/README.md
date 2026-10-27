@@ -38,21 +38,60 @@ built in. This directory holds everything needed to build its ISO.
   speech-to-text, `jupyter-notebook` for experimenting — plus JalOS's
   own `ai` command, a tiny perceptron that learns the OR gate in Jal
   Pari (run `blackmoon-jalos`, then type `ai`)
-- **Cybersecurity:** `nmap`, Wireshark (GUI + `tshark`), `tcpdump`,
-  `hashcat`, `john`, `hydra`, `aircrack-ng`, `sqlmap`, `gobuster`,
-  `openbsd-netcat` — all from official Arch repos. `blackmoon-sec`
-  runs a localhost-only audit (listening ports + a fast localhost
-  scan + the toolkit list); anything beyond localhost is deliberately
-  not scripted — use the tools directly, only with written permission
-  for that target. The bigger arsenal (metasploit, burpsuite, ffuf,
-  bettercap) is NOT in official repos: add the BlackArch repo or an
-  AUR helper after first boot if you want it.
+- **Cybersecurity (BlackArch direction, stage 1):** 17 tools from
+  official Arch repos, grouped by BlackArch category — recon/scanner
+  (`nmap`, `hping`), webapp/proxy (`mitmproxy`, `sqlmap`, `gobuster`),
+  forensic (`sleuthkit`, `binwalk`), reversing (`radare2`), cracker
+  (`hashcat`, `john`, `hydra`, `ncrack`), wireless (`aircrack-ng`),
+  sniffer (Wireshark GUI + `tshark`, `tcpdump`), networking
+  (`openbsd-netcat`). `blackmoon-sec` runs a localhost-only audit
+  (listening ports + a fast localhost scan + the toolkit list by
+  category); anything beyond localhost is deliberately not scripted
+  — use the tools directly, only with written permission for that
+  target. `blackmoon-blackarch` prints the steps to add the real
+  BlackArch repo after install (see below); it runs nothing itself.
 - **Jal Pari:** installed on demand by `blackmoon-install-jalpari`
   (the JalOS desktop icon does this automatically on first run)
 - **Installer:** `blackmoon-install` — guided, UEFI + BIOS, destroys
   the target disk, creates a real user with sudo; it also copies the
   glass theme, wallpaper, and AI/security launchers into the installed
   system (theme configs land in the new user's home, not just skel)
+
+## Toward BlackArch level (staged roadmap — honest scale)
+
+BlackArch itself is 2000+ tools in ~50 groups (blackarch-webapp,
+blackarch-scanner, blackarch-forensic, blackarch-cracker, and so on)
+as an extra repo on top of Arch. Black Moon OS is NOT at that level
+yet — 17 official-repo tools is a start, not parity — so the path
+there is staged, and no stage claims more than it is:
+
+- **Stage 1 — official-repo toolkit (done, in this profile).**
+  17 tools across 8 BlackArch categories, all verified in Arch's
+  Extra repo before being added (one bad name breaks the whole
+  mkarchiso build, so nothing unverified goes in). `blackmoon-sec`
+  lists them by category on the live system.
+- **Stage 2 — real BlackArch repo (post-install, on your machine).**
+  Run `blackmoon-blackarch`: it prints BlackArch's official
+  strap.sh steps (fetch, verify the sha256 sum, run, sync), which
+  you then run yourself — the script deliberately runs nothing,
+  because it changes pacman.conf and the keyring. Then install
+  groups one at a time (`pacman -S blackarch-webapp`, and so on).
+  Do NOT install the whole `blackarch` group blindly: it is tens
+  of GB. This stage only makes sense on an installed system, not
+  the live session.
+- **Stage 3 — parity claim (not yet).** "BlackArch level" can only
+  be claimed after a built ISO boots with the chosen groups
+  installed and tested — same first-build blocker as everything
+  else in this profile (see Honest status).
+
+**Deliberately NOT in packages.x86_64** (checked 27 Oct 2026, no
+official-repo evidence found): metasploit, burpsuite, ffuf,
+bettercap, whatweb, medusa, foremost, nuclei, and subfinder (AUR
+only). These come via the BlackArch repo or an AUR helper after
+first boot, never baked into the ISO list. `socat` was also left
+out: no archlinux.org package-page confirmation turned up in this
+check — verify with `pacman -Ss socat` on an Arch box before
+adding it.
 
 ## Build the ISO (on Arch Linux only)
 

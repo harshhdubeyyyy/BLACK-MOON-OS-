@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Black Moon BlackArch
+Comment=Steps to add the BlackArch repo (prints only, runs nothing)
+Exec=/usr/local/bin/blackmoon-blackarch
+Terminal=true
+Categories=System;Utility;
