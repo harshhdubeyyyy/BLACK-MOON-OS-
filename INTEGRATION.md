@@ -30,6 +30,7 @@ installer (which installs RED-MOON- into the target system via its
 |---|---|---|---|
 | v1.1.0 (`d56a903`) | `6fab40f` | 27 Oct 2026 | Kaggle kernel v1 COMPLETE; log shows demo, `ai`, `audit` |
 | working tree post-1.1.0 | `6fab40f` | 27 Oct 2026 | All 3 `jalos.fg` copies byte-identical; demo 254 lines identical |
+| `627904d` | `8fa46c2` | 27 Oct 2026 | Fresh public clones of both repos: full native suite PASS + sync check 9/9 |
 
 ## How to re-sync (after a JalOS change in RED-MOON-)
 
@@ -44,8 +45,8 @@ installer (which installs RED-MOON- into the target system via its
 - The ISO is unbuilt/unbooted (needs an Arch builder); theme,
   AI/sec launchers, and installer theme-copying are untested until
   first boot.
-- RED-MOON- live `main` currently lags its working tree (Windows
-  port, deploy configs, new JalOS unpushed). Until that push lands,
-  this repo's vendored JalOS is NEWER than RED-MOON- live — the
-  Kaggle notebook handles this by taking the compiler from RED-MOON-
-  live and `jalos.fg` from here.
+- No code drift at present: RED-MOON- live now contains the same
+  JalOS as this repo (drift closed 27 Oct 2026). Verification gap:
+  the Kaggle-verified combination is the older refs; the new refs
+  are verified from fresh public clones, not yet by a Kaggle re-run
+  (needs the owner's token re-supplied).
