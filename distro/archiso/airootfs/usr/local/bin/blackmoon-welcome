@@ -1,0 +1,6 @@
+#!/bin/bash
+# Black Moon OS welcome screen (live session + installed systems).
+if command -v fastfetch >/dev/null 2>&1; then
+    fastfetch
+fi
+cat /usr/share/blackmoon/welcome.txt

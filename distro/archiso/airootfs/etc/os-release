@@ -1,0 +1,9 @@
+NAME="Black Moon OS"
+PRETTY_NAME="Black Moon OS (live)"
+ID=blackmoon
+ID_LIKE=arch
+BUILD_ID=rolling
+HOME_URL="https://github.com/jayantt1dubeyy/BLACK-MOON-OS-"
+DOCUMENTATION_URL="https://github.com/jayantt1dubeyy/BLACK-MOON-OS-"
+SUPPORT_URL="https://github.com/jayantt1dubeyy/BLACK-MOON-OS-/issues"
+BUG_REPORT_URL="https://github.com/jayantt1dubeyy/BLACK-MOON-OS-/issues"

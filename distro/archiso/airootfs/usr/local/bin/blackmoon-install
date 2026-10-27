@@ -1,0 +1,95 @@
+#!/bin/bash
+# blackmoon-install — install Black Moon OS to disk.
+# BETA, UNTESTED: test in a VM (QEMU/VirtualBox) before any real disk.
+# This DESTROYS all data on the target disk. UEFI and BIOS supported.
+# Run as root from the live session.
+
+if [ "$(id -u)" -ne 0 ]; then
+    echo "run as root." >&2
+    exit 1
+fi
+command -v pacstrap >/dev/null 2>&1 || { echo "arch-install-scripts is missing." >&2; exit 1; }
+
+echo "Available disks:"
+lsblk -d -o NAME,SIZE,MODEL
+read -rp "Target disk (e.g. /dev/sda or /dev/vda): " DISK
+[ -b "$DISK" ] || { echo "not a block device: $DISK" >&2; exit 1; }
+echo "WARNING: ALL data on $DISK will be destroyed."
+read -rp "Type YES to continue: " CONFIRM
+[ "$CONFIRM" = "YES" ] || { echo "aborted."; exit 1; }
+
+# Partition suffix: /dev/sda -> 1, /dev/nvme0n1 -> p1
+case "$DISK" in
+    *[0-9]) P="p" ;;
+    *) P="" ;;
+esac
+
+if [ -d /sys/firmware/efi ]; then
+    UEFI=1
+    echo "UEFI detected: GPT + EFI system partition."
+    parted --script "$DISK" mklabel gpt \
+        mkpart ESP fat32 1MiB 1025MiB set 1 esp on \
+        mkpart primary ext4 1025MiB 100%
+    EFI_PART="${DISK}${P}1"
+    ROOT_PART="${DISK}${P}2"
+    mkfs.fat -F32 "$EFI_PART"
+    mkfs.ext4 -F "$ROOT_PART"
+    mount "$ROOT_PART" /mnt
+    mkdir -p /mnt/boot/efi
+    mount "$EFI_PART" /mnt/boot/efi
+else
+    UEFI=0
+    echo "BIOS detected: MBR + single root partition."
+    parted --script "$DISK" mklabel msdos \
+        mkpart primary ext4 1MiB 100% set 1 boot on
+    ROOT_PART="${DISK}${P}1"
+    mkfs.ext4 -F "$ROOT_PART"
+    mount "$ROOT_PART" /mnt
+fi
+
+echo "Installing base system (this downloads packages)..."
+pacstrap -K /mnt base linux linux-firmware networkmanager \
+    xfce4 xfce4-goodies lightdm lightdm-gtk-greeter \
+    grub efibootmgr sudo python git vim nano firefox
+genfstab -U /mnt >> /mnt/etc/fstab
+
+arch-chroot /mnt ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+arch-chroot /mnt hwclock --systohc || true
+sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /mnt/etc/locale.gen
+arch-chroot /mnt locale-gen
+echo "LANG=en_US.UTF-8" > /mnt/etc/locale.conf
+echo "blackmoon" > /mnt/etc/hostname
+printf '127.0.0.1 localhost\n::1 localhost\n127.0.1.1 blackmoon\n' > /mnt/etc/hosts
+
+read -rp "Root password: " -s ROOTPW; echo
+echo "root:$ROOTPW" | arch-chroot /mnt chpasswd
+read -rp "New username: " USERNAME
+arch-chroot /mnt useradd -m -G wheel -s /bin/bash "$USERNAME"
+read -rp "Password for $USERNAME: " -s USERPW; echo
+echo "$USERNAME:$USERPW" | arch-chroot /mnt chpasswd
+echo "%wheel ALL=(ALL:ALL) ALL" > /mnt/etc/sudoers.d/wheel
+chmod 440 /mnt/etc/sudoers.d/wheel
+
+arch-chroot /mnt systemctl enable NetworkManager lightdm
+
+if [ "$UEFI" = 1 ]; then
+    arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=blackmoon
+else
+    arch-chroot /mnt grub-install --target=i386-pc "$DISK"
+fi
+arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+
+echo "Installing Jal Pari + JalOS into the new system..."
+mkdir -p /mnt/usr/share/blackmoon /mnt/usr/local/bin
+cp /usr/share/blackmoon/jalos.fg /mnt/usr/share/blackmoon/ 2>/dev/null || true
+cp /usr/share/blackmoon/welcome.txt /mnt/usr/share/blackmoon/ 2>/dev/null || true
+cp /usr/local/bin/blackmoon-welcome /usr/local/bin/blackmoon-jalos /usr/local/bin/blackmoon-install-jalpari /mnt/usr/local/bin/ 2>/dev/null || true
+cp /usr/share/applications/blackmoon-*.desktop /mnt/usr/share/applications/ 2>/dev/null || true
+arch-chroot /mnt git clone https://github.com/jayantt1dubeyy/RED-MOON- /opt/jalpari
+arch-chroot /mnt /opt/jalpari/scripts/install.sh || echo "jalpari install reported an error — rerun blackmoon-install-jalpari after reboot."
+mkdir -p "/mnt/home/$USERNAME/.local/bin"
+ln -sf /opt/jalpari/bin/jalpari "/mnt/home/$USERNAME/.local/bin/jalpari"
+arch-chroot /mnt chown -R "$USERNAME:$USERNAME" "/home/$USERNAME/.local"
+
+umount -R /mnt
+echo "Done. Remove the live media and reboot into Black Moon OS."

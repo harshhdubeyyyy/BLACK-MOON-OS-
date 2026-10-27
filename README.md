@@ -7,6 +7,15 @@ manager, system services, logging, and a ~30-command shell —
 implemented in [The Jal Pari Language](https://github.com/jayantt1dubeyy/RED-MOON-)
 and running as a single program (`jalos.fg`).
 
+## Black Moon OS — the distro
+
+JalOS also ships inside a real, bootable Arch-based Linux
+distribution: XFCE desktop, Firefox/Chromium, GNOME Software,
+installer, and Jal Pari. See [`distro/README.md`](distro/README.md)
+— build it with `./distro/build.sh` on Arch Linux. (The distro is a
+real Linux system; JalOS itself runs *on top of* an OS and is not a
+kernel — the distinction is documented in the distro README.)
+
 ## Run it
 
 First install Jal Pari (one time), which puts the `jalpari` command

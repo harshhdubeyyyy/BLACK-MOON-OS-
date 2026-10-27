@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Black Moon Welcome
+Comment=Welcome to Black Moon OS
+Exec=/usr/local/bin/blackmoon-welcome
+Terminal=true
+Categories=System;
+Icon=help-about

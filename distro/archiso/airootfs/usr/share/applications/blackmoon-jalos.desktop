@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=JalOS
+Comment=A complete teaching OS in Jal Pari
+Exec=/usr/local/bin/blackmoon-jalos
+Terminal=true
+Categories=Education;System;
+Icon=utilities-terminal

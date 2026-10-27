@@ -1,0 +1,8 @@
+#!/bin/bash
+# Launch JalOS, the teaching OS in Jal Pari. Installs the language
+# first if it is not on PATH yet.
+if ! command -v jalpari >/dev/null 2>&1; then
+    echo "Jal Pari is not installed yet — installing it now..."
+    /usr/local/bin/blackmoon-install-jalpari || exit 1
+fi
+exec jalpari run /usr/share/blackmoon/jalos.fg "$@"

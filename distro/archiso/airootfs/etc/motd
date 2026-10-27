@@ -1,0 +1,6 @@
+Black Moon OS — live session (you are root here).
+Installed systems get a real user account; see blackmoon-install.
+  blackmoon-install   install Black Moon OS to disk (DESTRUCTIVE, VM first)
+  blackmoon-jalos     run JalOS, the teaching OS in Jal Pari
+  blackmoon-welcome   this welcome screen again
+If the graphical login does not appear, run: startxfce4

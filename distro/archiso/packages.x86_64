@@ -1,0 +1,115 @@
+# Black Moon OS package list — official Arch repos only (no AUR).
+# Groups (xfce4, xfce4-goodies) expand at build time.
+
+# base + boot + filesystems + installer tooling
+base
+base-devel
+linux
+linux-firmware
+amd-ucode
+intel-ucode
+grub
+efibootmgr
+syslinux
+memtest86+
+mtools
+os-prober
+parted
+gptfdisk
+dosfstools
+e2fsprogs
+exfatprogs
+btrfs-progs
+xfsprogs
+f2fs-tools
+ntfs-3g
+arch-install-scripts
+reflector
+
+# network
+networkmanager
+network-manager-applet
+wpa_supplicant
+iw
+openssh
+curl
+wget
+git
+
+# graphics + desktop (XFCE + LightDM)
+xorg-server
+mesa
+libva-mesa-driver
+vulkan-intel
+vulkan-radeon
+xfce4
+xfce4-goodies
+lightdm
+lightdm-gtk-greeter
+lightdm-gtk-greeter-settings
+gvfs
+gvfs-mtp
+thunar-volman
+tumbler
+noto-fonts
+noto-fonts-emoji
+
+# audio + bluetooth + power + printing
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+wireplumber
+pavucontrol
+bluez
+bluez-utils
+blueman
+cups
+cups-pdf
+system-config-printer
+power-profiles-daemon
+upower
+
+# apps: web browsers + app store
+firefox
+chromium
+gnome-software
+packagekit
+flatpak
+
+# office + media + graphics apps
+libreoffice-fresh
+vlc
+mpv
+gimp
+inkscape
+evince
+mousepad
+ristretto
+galculator
+
+# tools
+python
+nodejs
+npm
+vim
+nano
+htop
+fastfetch
+bash-completion
+man-db
+man-pages
+sudo
+less
+zip
+unzip
+p7zip
+rsync
+fwupd
+zram-generator
+
+# VM guest tools (for testing the ISO in a VM)
+open-vm-tools
+qemu-guest-agent
+virtualbox-guest-utils
+spice-vdagent

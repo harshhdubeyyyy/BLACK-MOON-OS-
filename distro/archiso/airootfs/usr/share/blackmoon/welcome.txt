@@ -1,0 +1,18 @@
+Welcome to Black Moon OS!
+An Arch-based distro with the XFCE desktop, and JalOS — a complete
+teaching operating system written in The Jal Pari Language — built in.
+
+Live session notes:
+  - You are root in the live session. Installed systems get a real
+    user account with sudo (created by blackmoon-install).
+  - If the graphical login does not appear, run: startxfce4
+
+Try these:
+  blackmoon-jalos     run JalOS (scheduler, filesystem, package manager)
+  blackmoon-install   install to disk (DESTRUCTIVE — test in a VM first)
+  pacman -Syu         update everything (Arch rolling release)
+  gnome-software      browse and install apps graphically
+  firefox             browse the web
+
+Source: https://github.com/jayantt1dubeyy/BLACK-MOON-OS-
+Language: https://github.com/jayantt1dubeyy/RED-MOON-
