@@ -1,0 +1,8 @@
+# A sample JalOS script file: run it with
+#   jalpari run jalos.fg scripts/hello-script.txt
+echo hello from a script
+run counter
+run printer
+sched
+ps
+shutdown

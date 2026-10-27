@@ -1,0 +1,254 @@
+JalOS 0.1.0 -- a teaching OS in Jal Pari
+[  OK  ] memory test: 1024 words
+created directory: /etc
+created directory: /var
+created directory: /var/log
+created directory: /home
+created directory: /home/guest
+created directory: /pkg
+wrote 0 bytes to /etc/passwd
+wrote 0 bytes to /var/log/syslog
+wrote 117 bytes to /README
+[  OK  ] mounted rootfs
+[  OK  ] init: syslogd, cron, netd started
+jalos login: root (uid 0)
+root@jalos:~# echo Welcome to JalOS
+Welcome to JalOS
+root@jalos:~# uname
+JalOS jalpari-kernel 0.1.0 x86_64-sim
+root@jalos:~# hostname
+jalos
+root@jalos:~# whoami
+root
+root@jalos:~# env
+USER=root
+HOSTNAME=jalos
+SHELL=/bin/jalos
+HOME=/root
+root@jalos:~# ls /
+etc (dir)
+var (dir)
+home (dir)
+pkg (dir)
+README
+root@jalos:~# ls /etc
+passwd
+root@jalos:~# cat /etc/passwd
+root
+guest
+
+root@jalos:~# cat /README
+Welcome to JalOS.
+A complete teaching OS written in Jal Pari.
+Try: help, ls, ps, run counter, sched, mem, pkg search
+
+root@jalos:~# mkdir /home/guest/docs
+created directory: /home/guest/docs
+root@jalos:~# write /home/guest/docs/note.txt Hello from JalOS
+wrote 16 bytes to /home/guest/docs/note.txt
+root@jalos:~# ls /home/guest/docs
+note.txt
+root@jalos:~# cat /home/guest/docs/note.txt
+Hello from JalOS
+root@jalos:~# cp /home/guest/docs/note.txt /home/guest/docs/copy.txt
+copied.
+root@jalos:~# ls /home/guest/docs
+note.txt
+copy.txt
+root@jalos:~# mv /home/guest/docs/copy.txt /home/guest/docs/moved.txt
+moved.
+root@jalos:~# ls /home/guest/docs
+note.txt
+moved.txt
+root@jalos:~# su guest guest
+switched to guest
+guest@jalos:~# whoami
+guest
+guest@jalos:~# write /README hacked
+write: permission denied
+guest@jalos:~# su root root
+switched to root
+root@jalos:~# whoami
+root
+root@jalos:~# mem
+memory: total = 1024 words, free = 1024 used = 0 blocks = 1
+root@jalos:~# malloc 16
+malloc: 16 words at 1
+root@jalos:~# malloc 32
+malloc: 32 words at 18
+root@jalos:~# mem
+memory: total = 1024 words, free = 974 used = 50 blocks = 3
+root@jalos:~# free 1
+freed 1
+root@jalos:~# mem
+memory: total = 1024 words, free = 991 used = 33 blocks = 3
+root@jalos:~# run counter
+spawned pid 1 counter prio 5
+root@jalos:~# run fibber
+spawned pid 2 fibber prio 5
+root@jalos:~# run sorter
+spawned pid 3 sorter prio 3
+root@jalos:~# run printer
+spawned pid 4 printer prio 8
+root@jalos:~# run idler
+spawned pid 5 idler prio 1
+root@jalos:~# ps
+pid 1 counter ready ticks 0 result 0 user root
+pid 2 fibber ready ticks 0 result 0 user root
+pid 3 sorter ready ticks 0 result 0 user root
+pid 4 printer ready ticks 0 result 0 user root
+pid 5 idler ready ticks 0 result 0 user root
+root@jalos:~# sched
+printer: printer says hello 0
+tick 1 : pid 4 printer step 1 running
+printer: printer says hello 1
+tick 2 : pid 4 printer step 2 running
+printer: printer says hello 2
+tick 3 : pid 4 printer step 3 done
+tick 4 : pid 1 counter step 1 running
+tick 5 : pid 1 counter step 2 running
+tick 6 : pid 1 counter step 3 running
+tick 7 : pid 1 counter step 4 running
+tick 8 : pid 1 counter step 5 done
+tick 9 : pid 2 fibber step 1 running
+tick 10 : pid 2 fibber step 2 running
+tick 11 : pid 2 fibber step 3 running
+tick 12 : pid 2 fibber step 4 running
+tick 13 : pid 2 fibber step 5 running
+tick 14 : pid 2 fibber step 6 running
+tick 15 : pid 2 fibber step 7 running
+tick 16 : pid 2 fibber step 8 running
+tick 17 : pid 2 fibber step 9 running
+tick 18 : pid 2 fibber step 10 running
+tick 19 : pid 2 fibber step 11 running
+tick 20 : pid 2 fibber step 12 done
+tick 21 : pid 3 sorter step 1 running
+tick 22 : pid 3 sorter step 2 running
+tick 23 : pid 3 sorter step 3 running
+tick 24 : pid 3 sorter step 4 running
+tick 25 : pid 3 sorter step 5 running
+tick 26 : pid 3 sorter step 6 running
+tick 27 : pid 3 sorter step 7 done
+tick 28 : pid 5 idler step 1 running
+tick 29 : pid 5 idler step 2 done
+scheduler: all processes finished
+root@jalos:~# ps
+pid 1 counter done ticks 5 result 5 user root
+pid 2 fibber done ticks 12 result 144 user root
+pid 3 sorter done ticks 7 result 1 user root
+pid 4 printer done ticks 3 result 3 user root
+pid 5 idler done ticks 2 result 0 user root
+root@jalos:~# top
+pid 2 fibber done ticks 12 result 144 user root
+pid 3 sorter done ticks 7 result 1 user root
+pid 1 counter done ticks 5 result 5 user root
+pid 4 printer done ticks 3 result 3 user root
+pid 5 idler done ticks 2 result 0 user root
+root@jalos:~# df
+filesystem: files = 13 content chars = 277
+root@jalos:~# ping localhost
+reply from 127.0.0.1: bytes=32 time<1ms TTL=64
+reply from 127.0.0.1: bytes=32 time<1ms TTL=64
+reply from 127.0.0.1: bytes=32 time<1ms TTL=64
+reply from 127.0.0.1: bytes=32 time<1ms TTL=64
+ping statistics: 4 transmitted, 4 received, 0% loss (loopback, simulated)
+root@jalos:~# ifconfig
+lo: inet 127.0.0.1 (loopback)
+eth0: inet 10.0.2.15 (via host NAT, simulated)
+root@jalos:~# pkg search
+units 0.1.0
+money 0.1.0
+geometry 0.1.0
+interest 0.1.0
+roman 0.1.0
+bases 0.1.0
+dice 0.1.0
+percentages 0.1.0
+loans 0.1.0
+bmi 0.1.0
+colors 0.1.0
+sorting 0.1.0
+search 0.1.0
+primes 0.1.0
+factors 0.1.0
+statistics 0.1.0
+grades 0.1.0
+tax 0.1.0
+cooking 0.1.0
+budget 0.1.0
+checks 0.1.0
+morse 0.1.0
+textstats 0.1.0
+speed 0.1.0
+data 0.1.0
+angle 0.1.0
+fractions 0.1.0
+vectors 0.1.0
+matrices 0.1.0
+polynomials 0.1.0
+root@jalos:~# pkg list
+root@jalos:~# services
+cron    running  (system scheduler daemon)
+syslog  running  (logging daemon, /var/log/syslog)
+netd    running  (network daemon, loopback + host NAT)
+pkgd    stopped  (package daemon, starts on pkg install)
+root@jalos:~# logger JalOS demo finished
+root@jalos:~# cat /var/log/syslog
+boot: kernel started
+boot: init done
+cron: heartbeat
+cron: heartbeat
+cron: heartbeat
+cron: heartbeat
+cron: heartbeat
+JalOS demo finished
+
+root@jalos:~# history
+0 echo Welcome to JalOS
+1 uname
+2 hostname
+3 whoami
+4 env
+5 ls /
+6 ls /etc
+7 cat /etc/passwd
+8 cat /README
+9 mkdir /home/guest/docs
+10 write /home/guest/docs/note.txt Hello from JalOS
+11 ls /home/guest/docs
+12 cat /home/guest/docs/note.txt
+13 cp /home/guest/docs/note.txt /home/guest/docs/copy.txt
+14 ls /home/guest/docs
+15 mv /home/guest/docs/copy.txt /home/guest/docs/moved.txt
+16 ls /home/guest/docs
+17 su guest guest
+18 whoami
+19 write /README hacked
+20 su root root
+21 whoami
+22 mem
+23 malloc 16
+24 malloc 32
+25 mem
+26 free 1
+27 mem
+28 run counter
+29 run fibber
+30 run sorter
+31 run printer
+32 run idler
+33 ps
+34 sched
+35 ps
+36 top
+37 df
+38 ping localhost
+39 ifconfig
+40 pkg search
+41 pkg list
+42 services
+43 logger JalOS demo finished
+44 cat /var/log/syslog
+45 history
+root@jalos:~# shutdown
+JalOS halted. Goodbye.
