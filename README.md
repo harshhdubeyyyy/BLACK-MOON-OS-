@@ -1,3 +1,7 @@
+![Black Moon header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=180&section=header&text=Black%20Moon%20OS%20%26%20JalOS&fontSize=38&animation=fadeIn)
+
+![Typing](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=F472B6&width=650&lines=A+teaching+OS+in+Jal+Pari.;Inside+a+real+bootable+Arch+distro.;Scheduler.+Filesystem.+Shell.+Networking.)
+
 # JalOS — a complete teaching OS in Jal Pari
 
 JalOS is every subsystem a modern OS has — bootloader, kernel,
@@ -72,3 +76,34 @@ so it must match exactly.
   shipped in language v1.2.0. Plain HTTP works everywhere
   regardless.
 - **No persistence.** The VFS lives in memory; shutdown loses it.
+
+---
+
+## 🗺️ Project map
+
+Two layers, one repo: JalOS (the teaching OS, written in Jal Pari) and Black Moon OS (the bootable distro it ships inside).
+
+```mermaid
+flowchart TD
+    JP["The Jal Pari Language"] --> JALOS["jalos.fg — JalOS teaching OS"]
+    JALOS --> SCHED["priority scheduler"]
+    JALOS --> VM["virtual memory allocator"]
+    JALOS --> FS["hierarchical filesystem + permissions"]
+    JALOS --> NET["networking + package manager"]
+    JALOS --> SHELL["~30-command shell"]
+    ARCH["Arch Linux (archiso)"] --> DISTRO["Black Moon OS distro"]
+    DISTRO --> XFCE["XFCE + LightDM + picom + plank"]
+    DISTRO --> INST["guided installer"]
+    DISTRO --> APP["JalOS as an app inside the distro"]
+```
+
+## 📊 At a glance (verified Oct 2026)
+
+| Measure | Value |
+|---|---|
+| JalOS | Full teaching OS in a single Jal Pari program, ~30 shell commands |
+| Distro base | Arch Linux (archiso profile), XFCE desktop |
+| Distro extras | Firefox, LibreOffice, GIMP, plank dock, macOS-look pieces, BlackArch Stage-1 tools |
+| ISO | Built 27 Oct 2026 via GitHub Actions, contents checked locally (live boot untested) |
+| Language | [The Jal Pari Language](https://github.com/themythofsisyphusjayant/RED-MOON-) |
+| License | MIT |
